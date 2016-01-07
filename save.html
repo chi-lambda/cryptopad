@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>save.lua</title>
+<meta name="Generator" content="SciTE - www.Scintilla.org" />
+<style type="text/css">
+.S0 {
+	color: #000000;
+}
+.S2 {
+	font-family: 'Lucida Console';
+	color: #007700;
+	font-size: 10pt;
+}
+.S4 {
+	color: #007F7F;
+}
+.S5 {
+	font-weight: bold;
+	color: #00007F;
+}
+.S6 {
+	color: #7F007F;
+}
+.S7 {
+	color: #7F007F;
+}
+.S10 {
+	color: #000000;
+}
+.S11 {
+	font-family: 'Lucida Console';
+	color: #000000;
+	font-size: 10pt;
+}
+.S13 {
+	color: #000080;
+}
+.S14 {
+	color: #000080;
+}
+.S15 {
+	color: #000080;
+}
+span {
+	font-family: 'Lucida Console';
+	color: #000000;
+	font-size: 10pt;
+}
+</style>
+</head>
+<body bgcolor="#FFFFFF">
+<span><span class="S13">require</span><span class="S6">"aeslua"</span><br />
+<span class="S13">require</span><span class="S6">"lfs"</span><br />
+<span class="S5">if</span><span class="S0"> </span><span class="S11">cgilua.POST.file</span><span class="S0"> </span><span class="S5">and</span><span class="S0"> </span><span class="S11">cgilua.POST.text</span><span class="S0"> </span><span class="S5">and</span><span class="S0"> </span><span class="S11">cgilua.POST.password</span><span class="S0"> </span><span class="S5">then</span><br />
+<span class="S0">&nbsp; &nbsp; </span><span class="S5">local</span><span class="S0"> </span><span class="S11">fn</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S11">cgilua.POST.file</span><br />
+<span class="S0">&nbsp; &nbsp; </span><span class="S2">-- remove up-dir</span><br />
+<span class="S0">&nbsp; &nbsp; </span><span class="S11">fn</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S11">fn</span><span class="S10">:</span><span class="S14">gsub</span><span class="S10">(</span><span class="S7">'%.%.'</span><span class="S10">,</span><span class="S0"> </span><span class="S7">''</span><span class="S10">)</span><br />
+<span class="S0">&nbsp; &nbsp; </span><span class="S2">-- remove leading slashes</span><br />
+<span class="S0">&nbsp; &nbsp; </span><span class="S5">while</span><span class="S0"> </span><span class="S11">fn</span><span class="S10">:</span><span class="S11">find</span><span class="S10">(</span><span class="S7">'/'</span><span class="S10">)</span><span class="S0"> </span><span class="S10">==</span><span class="S0"> </span><span class="S4">1</span><span class="S0"> </span><span class="S5">do</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S11">fn</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S11">fn</span><span class="S10">:</span><span class="S11">sub</span><span class="S10">(</span><span class="S4">2</span><span class="S10">)</span><br />
+<span class="S0">&nbsp; &nbsp; </span><span class="S5">end</span><br />
+<span class="S0">&nbsp; &nbsp; </span><span class="S11">fn</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S7">'db/'</span><span class="S0"> </span><span class="S10">..</span><span class="S0"> </span><span class="S11">fn</span><span class="S0"> </span><span class="S10">..</span><span class="S0"> </span><span class="S7">'/'</span><br />
+<span class="S0">&nbsp; &nbsp; </span><span class="S5">local</span><span class="S0"> </span><span class="S11">revisions</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S10">{}</span><br />
+<span class="S0">&nbsp; &nbsp; </span><span class="S5">for</span><span class="S0"> </span><span class="S11">d</span><span class="S0"> </span><span class="S5">in</span><span class="S0"> </span><span class="S11">lfs.dir</span><span class="S10">(</span><span class="S11">fn</span><span class="S10">)</span><span class="S0"> </span><span class="S5">do</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">if</span><span class="S0"> </span><span class="S11">d</span><span class="S10">:</span><span class="S11">sub</span><span class="S10">(-</span><span class="S4">4</span><span class="S10">)</span><span class="S0"> </span><span class="S10">==</span><span class="S0"> </span><span class="S7">'.rev'</span><span class="S0"> </span><span class="S5">then</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S14">table.insert</span><span class="S10">(</span><span class="S11">revisions</span><span class="S10">,</span><span class="S0"> </span><span class="S11">d</span><span class="S10">)</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">end</span><br />
+<span class="S0">&nbsp; &nbsp; </span><span class="S5">end</span><br />
+<span class="S0">&nbsp; &nbsp; </span><span class="S5">local</span><span class="S0"> </span><span class="S11">max_date</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S5">function</span><span class="S10">(</span><span class="S11">files</span><span class="S10">)</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">local</span><span class="S0"> </span><span class="S11">m</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S4">0</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">for</span><span class="S0"> </span><span class="S11">_</span><span class="S10">,</span><span class="S0"> </span><span class="S11">f</span><span class="S0"> </span><span class="S5">in</span><span class="S0"> </span><span class="S13">ipairs</span><span class="S10">(</span><span class="S11">files</span><span class="S10">)</span><span class="S0"> </span><span class="S5">do</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S11">m</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S14">math.max</span><span class="S10">(</span><span class="S11">m</span><span class="S10">,</span><span class="S0"> </span><span class="S11">lfs.attributes</span><span class="S10">(</span><span class="S11">fn</span><span class="S0"> </span><span class="S10">..</span><span class="S0"> </span><span class="S11">f</span><span class="S10">,</span><span class="S0"> </span><span class="S7">'modification'</span><span class="S10">))</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">end</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">return</span><span class="S0"> </span><span class="S11">m</span><br />
+<span class="S0">&nbsp; &nbsp; </span><span class="S5">end</span><br />
+<span class="S0">&nbsp; &nbsp; </span><span class="S5">local</span><span class="S0"> </span><span class="S11">f</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S15">io.open</span><span class="S10">(</span><span class="S11">fn</span><span class="S0"> </span><span class="S10">..</span><span class="S0"> </span><span class="S7">'current'</span><span class="S10">)</span><br />
+<span class="S0">&nbsp; &nbsp; </span><span class="S5">if</span><span class="S0"> </span><span class="S11">f</span><span class="S0"> </span><span class="S5">then</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S11">f</span><span class="S10">:</span><span class="S11">close</span><span class="S10">()</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S11">date_of_last_rev</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S11">max_date</span><span class="S10">(</span><span class="S11">revisions</span><span class="S10">)</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S11">date_of_curr_rev</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S11">lfs.attributes</span><span class="S10">(</span><span class="S11">fn</span><span class="S0"> </span><span class="S10">..</span><span class="S0"> </span><span class="S7">'current'</span><span class="S10">,</span><span class="S0"> </span><span class="S7">'modification'</span><span class="S10">)</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S11">size_of_last_rev</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S11">lfs.attributes</span><span class="S10">(</span><span class="S11">fn</span><span class="S0"> </span><span class="S10">..</span><span class="S0"> </span><span class="S7">'current'</span><span class="S10">,</span><span class="S0"> </span><span class="S7">'size'</span><span class="S10">)</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">if</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S11">cgilua.POST.newrev</span><span class="S0"> </span><span class="S5">or</span><span class="S0"> </span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S15">os.difftime</span><span class="S10">(</span><span class="S11">date_of_curr_rev</span><span class="S10">,</span><span class="S0"> </span><span class="S11">date_of_last_rev</span><span class="S10">)</span><span class="S0"> </span><span class="S10">&gt;</span><span class="S0"> </span><span class="S4">3600</span><span class="S0"> </span><span class="S5">or</span><span class="S0"> </span><span class="S2">-- last revision older than an hour</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S14">math.abs</span><span class="S10">(</span><span class="S11">size_of_last_rev</span><span class="S0"> </span><span class="S10">-</span><span class="S0"> </span><span class="S10">#(</span><span class="S11">cgilua.POST.text</span><span class="S10">))</span><span class="S0"> </span><span class="S10">&gt;</span><span class="S0"> </span><span class="S4">100</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">then</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S11">cgilua.put</span><span class="S10">(</span><span class="S7">'new revision.'</span><span class="S10">)</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S15">os.rename</span><span class="S10">(</span><span class="S11">fn</span><span class="S0"> </span><span class="S10">..</span><span class="S0"> </span><span class="S7">'current'</span><span class="S10">,</span><span class="S0"> </span><span class="S11">fn</span><span class="S0"> </span><span class="S10">..</span><span class="S0"> </span><span class="S10">(#</span><span class="S11">revisions</span><span class="S10">+</span><span class="S4">1</span><span class="S10">)</span><span class="S0"> </span><span class="S10">..</span><span class="S0"> </span><span class="S7">'.rev'</span><span class="S10">)</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S5">end</span><br />
+<span class="S0">&nbsp; &nbsp; </span><span class="S5">end</span><br />
+<span class="S0">&nbsp; &nbsp; </span><span class="S11">f</span><span class="S0"> </span><span class="S10">=</span><span class="S0"> </span><span class="S15">io.open</span><span class="S10">(</span><span class="S11">fn</span><span class="S0"> </span><span class="S10">..</span><span class="S0"> </span><span class="S7">'current'</span><span class="S10">,</span><span class="S0"> </span><span class="S7">'wb'</span><span class="S10">)</span><br />
+<span class="S0">&nbsp; &nbsp; </span><span class="S5">if</span><span class="S0"> </span><span class="S11">f</span><span class="S0"> </span><span class="S5">then</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S11">f</span><span class="S10">:</span><span class="S15">write</span><span class="S10">(</span><span class="S11">aeslua.encrypt</span><span class="S10">(</span><span class="S11">cgilua.POST.password</span><span class="S10">,</span><span class="S0"> </span><span class="S11">cgilua.POST.text</span><span class="S10">,</span><span class="S0"> </span><span class="S11">aeslua.AES256</span><span class="S10">,</span><span class="S0"> </span><span class="S11">aeslua.CBCMODE</span><span class="S10">))</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S11">cgilua.put</span><span class="S10">(</span><span class="S7">'saved.'</span><span class="S10">);</span><br />
+<span class="S0">&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="S11">f</span><span class="S10">:</span><span class="S11">close</span><span class="S10">()</span><br />
+<span class="S0">&nbsp; &nbsp; </span><span class="S5">end</span><br />
+<span class="S11">end</span></span>
+</body>
+</html>

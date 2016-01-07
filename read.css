@@ -1,0 +1,15 @@
+body {
+	padding:0px;
+	margin:0px;
+	background-color: black;
+}
+
+div#text {
+	margin-left: 9em;
+	margin-right: 9em;
+	margin-top: 0em;
+	margin-bottom: 0em;
+	background-color: #FFFFBB;
+	padding: 1em;
+	font-family: Verdana;
+}
