@@ -15,7 +15,7 @@ $(document).ready(function(){
 	}
 	document.title = currentFile;
 	
-	clearFunc = function(){
+	var clearFunc = function(){
 		$('#text').val('');
 		$('#password').val('');
 		$('#pwrepeat').val('');
