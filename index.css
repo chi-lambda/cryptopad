@@ -65,3 +65,7 @@ html, body {
 	margin-bottom:1em;
 	display:block;
 }
+
+.fontsample {
+	font-family: 'Dr Sugiyama', cursive;
+}
