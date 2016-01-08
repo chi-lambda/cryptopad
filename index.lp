@@ -3,23 +3,23 @@
 <%
 	local script_name = cgilua.servervariable("SCRIPT_NAME")
 	local script_pos = script_name:find("/index.lp", 1, true)
-	local base_path = script_name:sub(1, script_pos - 1)
+	local base_path = script_name:sub(1, script_pos)
 %>
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width" />
 	<title></title>
 	<link href='https://fonts.googleapis.com/css?family=Dr Sugiyama' rel='stylesheet' type='text/css' />
-	<link type="text/css" href="<%=base_path%>/index.css" rel="Stylesheet" />
-	<script src="<%=base_path%>/jquery-2.0.3.min.js" type="text/javascript"></script>
+	<link type="text/css" href="<%=base_path%>index.css" rel="Stylesheet" />
+	<script src="<%=base_path%>jquery-2.0.3.min.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		var currentFile;
 	</script>
 	<script type="text/javascript">
 		currentFile = '<%=((cgilua.servervariable("PATH_INFO") or "test"):gsub("[^A-Za-z0-9]", "")) %>';
-		base_path = '<%=base_path%>/';
+		base_path = '<%=base_path%>';
 	</script>
-	<script src="<%=base_path%>/cwiki.js" type="text/javascript"></script>
+	<script src="<%=base_path%>cwiki.js" type="text/javascript"></script>
 </head>
 <body>
 	<div id="edit_page" style="display:none">
@@ -37,9 +37,9 @@
 			<button id="reallydeletebtn" type="button" value="delete" style="display:none">y</button>
 			<button id="dontdeletebtn" type="button" value="delete" style="display:none">n</button>
 			<label><input type="checkbox" id="privacy" />lc</label>
-			<a href="<%=base_path%>/help.html" target="_blank"><b>h</b></a>
-			<a href="<%=base_path%>/read.lp?=" class="read">r</a>
-			<a href="<%=base_path%>/read.lp?=" class="read" target="_blank">nt</a>
+			<a href="<%=base_path%>help.html" target="_blank"><b>h</b></a>
+			<a href="<%=base_path%>read.lp?=" class="read">r</a>
+			<a href="<%=base_path%>read.lp?=" class="read" target="_blank">nt</a>
 			“” „“ – —
 			<span id="autosavewarn" style="display:none">[Autosave disabled]</span>
 			<span id="saved" style="display:none">[Saved]</span>
