@@ -1,4 +1,4 @@
-require"aeslua"
+openssl = require"openssl"
 if cgilua.POST.file and cgilua.POST.password then
 	local f
 	local fn = cgilua.POST.file
@@ -15,7 +15,10 @@ if cgilua.POST.file and cgilua.POST.password then
 		f = io.open(fn .. 'current','rb')
 	end
 	if f then
-		cgilua.put(aeslua.decrypt(cgilua.POST.password or "", f:read('*a'), aeslua.AES256, aeslua.CBCMODE) or 'error')
+		aes = openssl.cipher.get('aes-256-cbc')
+		key, iv = aes:BytesToKey(cgilua.POST.password or "")
+		plaintext, message = aes:decrypt(f:read('*a'), key, iv)
+		cgilua.put(plaintext or message)
 		f:close()
 	end
 end

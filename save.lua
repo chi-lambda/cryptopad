@@ -3,7 +3,7 @@
 -- text: the text to be encrypted and saved
 -- password: the password used for encryption
 -- newrev: optional, content ignored; forces a new revision to be created
-require"aeslua"
+local openssl = require"openssl"
 require"lfs"
 if cgilua.POST.file and cgilua.POST.text and cgilua.POST.password then
 	local fn = cgilua.POST.file
@@ -52,7 +52,9 @@ if cgilua.POST.file and cgilua.POST.text and cgilua.POST.password then
 	-- write text to current, encrypt with AES-256 cipher block chaining
 	f = io.open(fn .. 'current', 'wb')
 	if f then
-		f:write(aeslua.encrypt(cgilua.POST.password, cgilua.POST.text, aeslua.AES256, aeslua.CBCMODE))
+		aes = openssl.cipher.get('aes-256-cbc')
+		key, iv = aes:BytesToKey(cgilua.POST.password or "")
+		f:write(aes:encrypt(cgilua.POST.text, key, iv))
 		cgilua.put('saved.');
 		f:close()
 	end
