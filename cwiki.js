@@ -64,7 +64,7 @@ $(document).ready(function(){
 				$('#autosavewarn').hide();
 			},
 			type : "POST",
-			url : "load.lua", data: {
+			url : base_path + "load.lua", data: {
 				file: currentFile,
 				password:$('#password').val()
 			}
@@ -78,7 +78,7 @@ $(document).ready(function(){
 				$('#autosavewarn').hide();
 			},
 			type : "POST",
-			url : "getrevisions.lua", data: {
+			url : base_path + "getrevisions.lua", data: {
 				file: currentFile,
 				password: $('#password').val(),
 			}
@@ -95,14 +95,14 @@ $(document).ready(function(){
 							loadRevisions(jqXHR.responseText, 'current');
 						},
 						type : "POST",
-						url : "getrevisions.lua",
+						url : base_path + "getrevisions.lua",
 						data: {
 							file: currentFile
 						}
 					});
 				},
 				type : "POST",
-				url : "save.lua",
+				url : base_path + "save.lua",
 				data: {
 					file: currentFile,
 					password:$('#password').val(),
@@ -117,14 +117,14 @@ $(document).ready(function(){
 							loadRevisions(jqXHR.responseText, 'current');
 						},
 						type : "POST",
-						url : "getrevisions.lua",
+						url : base_path + "getrevisions.lua",
 						data: {
 							file: currentFile
 						}
 					});
 				},
 				type : "POST",
-				url : "save.lua",
+				url : base_path + "save.lua",
 				data: {
 					file: currentFile,
 					password:$('#password').val(),
@@ -146,14 +146,14 @@ $(document).ready(function(){
 						loadRevisions(jqXHR.responseText,'current');
 					},
 					type : "POST",
-					url : "getrevisions.lua",
+					url : base_path + "getrevisions.lua",
 					data: {
 						file: currentFile
 					}
 				});
 			},
 			type : "POST",
-			url : "save.lua", data: {
+			url : base_path + "save.lua", data: {
 				file: currentFile,
 				password:$('#password').val(),
 				text: $('#text').val(),
@@ -176,14 +176,14 @@ $(document).ready(function(){
 							loadRevisions(jqXHR.responseText,'current');
 						},
 						type : "POST",
-						url : "getrevisions.lua",
+						url : base_path + "getrevisions.lua",
 						data: {
 							file: currentFile
 						}
 					});
 				},
 				type : "POST",
-				url : "save.lua", data: {
+				url : base_path + "save.lua", data: {
 					file: currentFile,
 					text: textval,
 					password:$('#password').val()
@@ -207,7 +207,7 @@ $(document).ready(function(){
 					$('.revlink[href="'+rev+'"]').css('font-weight', 'bold');
 				},
 				type : "POST",
-				url : "load.lua", data: {
+				url : base_path + "load.lua", data: {
 					file: currentFile,
 					password: $('#password').val()
 				}
@@ -225,7 +225,7 @@ $(document).ready(function(){
 					$('.revlink[href="'+rev+'"]').css('font-weight', 'bold');
 				},
 				type : "POST",
-				url : "load.lua",
+				url : base_path + "load.lua",
 				data: {
 					file: currentFile,
 					password: $('#password').val(),
@@ -247,11 +247,11 @@ $(document).ready(function(){
 					complete: function(jqXHR, textStatus){
 						$('#Navigation').html(jqXHR.responseText);
 					},
-					url : "getfiles.lua"
+					url : base_path + "getfiles.lua"
 				});
 			},
 			type: 'POST',
-			url: 'filesvc.lua',
+			url: base_path + 'filesvc.lua',
 			data: {
 				file: $('#newfile').val(),
 				action: 'create'
@@ -268,14 +268,14 @@ $(document).ready(function(){
 						loadRevisions(jqXHR.responseText,'current');
 					},
 					type : "POST",
-					url : "getrevisions.lua",
+					url : base_path + "getrevisions.lua",
 					data: {
 						file: currentFile
 					}
 				});
 			},
 			type: 'POST',
-			url: 'filesvc.lua',
+			url: base_path + 'filesvc.lua',
 			data: {
 				file: currentFile,
 				action: 'cleanup'
@@ -297,12 +297,12 @@ $(document).ready(function(){
 					complete: function(jqXHR, textStatus){
 						$('#Navigation').html(jqXHR.responseText);
 					},
-					url : "getfiles.lua"
+					url : base_path + "getfiles.lua"
 				});
 				$('#Revisions').html('');
 			},
 			type: 'POST',
-			url: 'filesvc.lua',
+			url: base_path + 'filesvc.lua',
 			data: {
 				file: currentFile,
 				action: 'delete'
@@ -333,7 +333,7 @@ $(document).ready(function(){
 				$('.read').attr('href','read.lp?='+currentFile);
 			},
 			type : "POST",
-			url : "getrevisions.lua", data: {
+			url : base_path + "getrevisions.lua", data: {
 				file: currentFile
 			}
 		});
@@ -373,7 +373,7 @@ $(document).ready(function(){
 			$('#Revisions').html(jqXHR.responseText);
 		},
 		type : "POST",
-		url : "getrevisions.lua", data: {
+		url : base_path + "getrevisions.lua", data: {
 			file: currentFile
 		}
 	});
@@ -384,7 +384,7 @@ $(document).ready(function(){
 			$('.filelink').css('font-weight', 'normal');
 			$('.filelink[href="'+currentFile+'"]').css('font-weight', 'bold');
 		},
-		url : "getfiles.lua", data: {
+		url : base_path + "getfiles.lua", data: {
 			file: currentFile
 		}
 	});
