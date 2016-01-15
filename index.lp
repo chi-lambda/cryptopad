@@ -1,9 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 <%
-	local script_name = cgilua.servervariable("SCRIPT_NAME")
-	local script_pos = script_name:find("/index.lp", 1, true)
-	local base_path = script_name:sub(1, script_pos)
+	local base_path, script_name = cgilua.servervariable("SCRIPT_NAME"):match("(.*/)(.*)")
 %>
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -13,11 +11,12 @@
 	<link type="text/css" href="<%=base_path%>index.css" rel="Stylesheet" />
 	<script src="<%=base_path%>jquery-2.0.3.min.js" type="text/javascript"></script>
 	<script type="text/javascript">
-		var currentFile;
-	</script>
-	<script type="text/javascript">
-		currentFile = '<%=((cgilua.servervariable("PATH_INFO") or "test"):gsub("[^A-Za-z0-9]", "")) %>';
-		base_path = '<%=base_path%>';
+		<% local path_info = cgilua.servervariable("PATH_INFO"):gsub("[^A-Za-z0-9]", ""):sub(2)
+		   if path_info == '' then path_info = 'test' end
+		%>
+		var currentFile = '<%=path_info%>';
+		var base_path = '<%=base_path%>';
+		var script_name = '<%=script_name%>';
 	</script>
 	<script src="<%=base_path%>cwiki.js" type="text/javascript"></script>
 </head>

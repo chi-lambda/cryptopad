@@ -7,12 +7,6 @@ var clearFunc;
 
 $(document).ready(function(){
 	
-	if (location.hash != "") {
-		currentFile = location.hash.substring(1);
-	} else {
-		currentFile = 'test';
-		location.hash = currentFile;
-	}
 	document.title = currentFile;
 	
 	var clearFunc = function(){
