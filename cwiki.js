@@ -310,12 +310,9 @@ $(document).ready(function(){
 		$('#dontdeletebtn').hide();
 	});
 	
-	$('#Navigation').on('click', '.filelink', function(e){
-		e.preventDefault();
-		currentFile = $(this).attr('href');
+	var loadFile = function() {
 		document.title = currentFile;
 		$('#filename').html(currentFile);
-		location.hash = currentFile;
 		$('#text').val('');
 		$('#password').val('');
 		$('#pwrepeat').val('');
@@ -324,13 +321,29 @@ $(document).ready(function(){
 				$('#Revisions').html(jqXHR.responseText);
 				$('.filelink').css('font-weight', 'normal');
 				$('.filelink[href="'+currentFile+'"]').css('font-weight', 'bold');
-				$('.read').attr('href','read.lp?='+currentFile);
+				$('.read').attr('href', base_path + 'read.lp?='+currentFile);
 			},
 			type : "POST",
 			url : base_path + "getrevisions.lua", data: {
 				file: currentFile
 			}
 		});
+
+	}
+	
+	$('#Navigation').on('click', '.filelink', function(e){
+		e.preventDefault();
+		currentFile = $(this).attr('href');
+		window.history.pushState(currentFile, null, base_path + script_name + '/' + currentFile);
+		loadFile();
+	});
+	
+	window.addEventListener('popstate', function(e) {
+		currentFile = e.state;
+		if (currentFile == null) {
+			currentFile = test;
+		}
+		loadFile();
 	});
 	
 	$('.read').click(function(e){
