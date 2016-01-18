@@ -9,7 +9,7 @@
 	<title></title>
 	<link href='https://fonts.googleapis.com/css?family=Dr Sugiyama' rel='stylesheet' type='text/css' />
 	<link type="text/css" href="<%=base_path%>index.css" rel="Stylesheet" />
-	<script src="<%=base_path%>jquery-2.0.3.min.js" type="text/javascript"></script>
+	<script src="<%=base_path%>jquery-2.2.0.min.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		<% local path_info = cgilua.servervariable("PATH_INFO"):gsub("[^A-Za-z0-9]", "")
 		   if path_info == '' then path_info = 'test' end
