@@ -1,7 +1,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 <%
-	local base_path, script_name = cgilua.servervariable("SCRIPT_NAME"):match("(.*/)(.*)")
+	local script_name = cgilua.servervariable("SCRIPT_NAME"):match(".*/(.*)")
+	local path_info = cgilua.servervariable("PATH_INFO"):gsub("[^A-Za-z0-9]", "")
+	local base_path = ''
+	if path_info == '' then
+		path_info = 'test'
+	else
+		base_path = '../'
+	end
 %>
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
